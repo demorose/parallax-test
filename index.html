@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <style type="text/css" media="screen">
+            .parallax {
+                position: fixed;
+            }
+
+            #back {
+                width: 500px;
+                height: 500px;
+                background-color: red;
+                top: 100px;
+                border-radius: 250px;
+            }
+
+            #middle {
+                width: 250px;
+                height: 250px;
+                background-color: green;
+                border-radius: 125px;
+            }
+
+            #front {
+                width: 200px;
+                height: 200px;
+                background-color: blue;
+                border-radius: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='back' class="parallax" style='top:100px; left: 500px;' data-coef="0.01">
+        </div>
+        <div id="middle" class="parallax" style="top:175px; left: 600px;" data-coef="0.07">
+        </div>
+        <div id="front" class="parallax" style="top:175px; left: 600px;" data-coef="0.57">
+        </div>
+
+        <script type="text/javascript" charset="utf-8">
+            var IE = document.all?true:false
+
+            if (!IE) 
+                document.captureEvents(Event.MOUSEMOVE)
+
+            document.onmousemove = getMouseXY;
+
+            var tempX1 = 0
+            var tempY1 = 0
+            var tempX2 = 0
+            var tempY2 = 0
+
+
+            function getMouseXY(e) {
+                if (IE) {
+                    tempX1 = event.clientX + document.body.scrollLeft
+                    tempY1 = event.clientY + document.body.scrollTop
+                }
+                else {
+                    tempX1 = e.pageX
+                    tempY1 = e.pageY
+                }
+
+                document.onmousemove = moveObjects;
+            }
+
+            function moveObjects(e) {
+                console.log('moved');
+                if (IE) {
+                    tempX2 = event.clientX + document.body.scrollLeft
+                    tempY2 = event.clientY + document.body.scrollTop
+                }
+                else {
+                    tempX2 = e.pageX
+                    tempY2 = e.pageY
+                }
+
+                [].forEach.call(document.getElementsByClassName('parallax'), function(obj) {
+                    obj.style.left = (obj.style.left.replace(/px$/, '')*1 + (tempX2 - tempX1)*(obj.getAttribute('data-coef'))) + 'px';
+                    obj.style.top = (obj.style.top.replace(/px$/, '')*1 + (tempY2 - tempY1)*(obj.getAttribute('data-coef'))) + 'px';
+                });
+
+                tempX1 = tempX2;
+                tempY1 = tempY2;
+
+                return true
+            }
+        </script>
+    </body>
+</html>
