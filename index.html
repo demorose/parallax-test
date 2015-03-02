@@ -2,15 +2,20 @@
     <head>
         <style type="text/css" media="screen">
             .parallax {
-                position: fixed;
+                position: absolute;
             }
 
-            #back {
+            #sun {
                 width: 500px;
                 height: 500px;
-                background-color: red;
+                background-color: #F5F6CE;
                 top: 100px;
                 border-radius: 250px;
+                z-index: 1;
+            }
+
+            #boat {
+                z-index: 8;
             }
 
             #middle {
@@ -18,22 +23,106 @@
                 height: 250px;
                 background-color: green;
                 border-radius: 125px;
+                z-index: 2;
             }
 
-            #front {
-                width: 200px;
-                height: 200px;
-                background-color: blue;
+            #wave1 {
+                width: 300%;
+                height: 600px;
+                background-color: #0080FF;
+                z-index: 10;
+            }
+            #wave2 {
+                width: 300%;
+                height: 600px;
+                background-color:#045FB4;
+                z-index: 9;
+            }
+            #wave3 {
+                width: 300%;
+                height: 600px;
+                background-color:#08298A;
+                z-index: 7;
+            }
+            #wave4 {
+                width: 300%;
+                height: 600px;
+                background-color:#0B173B;
+                z-index: 6;
+            }
+
+            #container {
+                position: relative;
+                width: 900px;
+                height: 500px;
+                margin: auto;
+                overflow: hidden;
+                background-color: #A9E2F3;
+            }
+
+            #cloud {
+                width: 350px; height: 120px;
+
+                background: #f2f9fe;
+                background: linear-gradient(top, #f2f9fe 5%, d6f0fd 100%);
+                background: -webkit-linear-gradient(top, #f2f9fe 5%, d6f0fd 100%);
+                background: -moz-linear-gradient(top, #f2f9fe 5%, d6f0fd 100%);
+                background: -ms-linear-gradient(top, #f2f9fe 5%, d6f0fd 100%);
+                background: -o-linear-gradient(top, #f2f9fe 5%, d6f0fd 100%);
+
                 border-radius: 100px;
+                -webkit-border-radius: 100px;
+                -moz-border-radius: 100px;
+
+                z-index: 2;
+
+                position: relative;
+                margin: 120px auto 20px;
+            }
+
+            #cloud:after, #cloud:before {
+                content: '';
+                position: absolute;
+                background: #f2f9fe;
+                z-index: -1
+            }
+
+            #cloud:after {
+                width: 100px; height: 100px;
+                top: -50px; left: 50px;
+
+                border-radius: 100px;
+                -webkit-border-radius: 100px;
+                -moz-border-radius: 100px;
+            }
+
+            #cloud:before {
+                width: 180px; height: 180px;
+                top: -90px; right: 50px;
+
+                border-radius: 200px;
+                -webkit-border-radius: 200px;
+                -moz-border-radius: 200px;
             }
         </style>
     </head>
     <body>
-        <div id='back' class="parallax" style='top:100px; left: 500px;' data-coef="0.01">
-        </div>
-        <div id="middle" class="parallax" style="top:175px; left: 600px;" data-coef="0.07">
-        </div>
-        <div id="front" class="parallax" style="top:175px; left: 600px;" data-coef="0.57">
+        <div id="container">
+            <div id='sun' class="parallax" style='top:100px; left: 500px;' data-coef="0.01">
+            </div>
+            <div id="cloud" class="parallax" style="top:10px; left: 10px;" data-coef="0.07">
+            </div>
+            <div id="wave1" class="parallax" style="top:470px;left: -500px;" data-coef="0.60">
+            </div>
+            <div id="wave2" class="parallax" style="top:450px;left: -500px;" data-coef="0.50">
+            </div>
+            <div id="wave3" class="parallax" style="top:430px;left: -500px;" data-coef="0.30">
+            </div>
+            <div id="wave4" class="parallax" style="top:410px;left: -500px;" data-coef="0.10">
+            </div>
+            <div id="boat" class="parallax" style="top:335px;left: 200px;" data-coef="0.40">
+                    <img src="boat.png" alt=""/>
+            </div>
         </div>
 
         <script type="text/javascript" charset="utf-8">
@@ -42,7 +131,7 @@
             if (!IE) 
                 document.captureEvents(Event.MOUSEMOVE)
 
-            document.onmousemove = getMouseXY;
+            document.getElementById('container').onmousemove = getMouseXY;
 
             var tempX1 = 0
             var tempY1 = 0
@@ -60,7 +149,7 @@
                     tempY1 = e.pageY
                 }
 
-                document.onmousemove = moveObjects;
+                document.getElementById('container').onmousemove = moveObjects;
             }
 
             function moveObjects(e) {
